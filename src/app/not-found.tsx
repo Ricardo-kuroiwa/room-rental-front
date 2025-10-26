@@ -6,11 +6,11 @@ export const metadata: Metadata = {
   title: 'Página Não Encontrada - Erro 404',
   description: 'A página que você está procurando não existe ou foi movida.',
 }
-
+ 
 export default function NotFound() {
   return (
     // Contêiner principal da página inteira (cinza)
-    <div className="min-h-screen flex items-center justify-center bg-gray-900 p-4 border-2 border-dashed border-gray-400">
+    <div className="min-h-screen flex items-center justify-center bg-slate-800 p-4 border-2 border-dashed border-gray-400">
       
       {/* Contêiner do Grid que alinha os dois blocos principais (vermelho) */}
       <div className="max-w-6xl w-full grid md:grid-cols-2 gap-8 items-center border-4 border-red-500">
@@ -38,7 +38,7 @@ export default function NotFound() {
               </h2>
               
               <p className="font-inter text-gray-200 text-lg md:text-xl border border-dashed border-orange-500">
-                A página que você está procurando não existe ou foi movida.
+                A página que você está procurando não existe ou foi removida.
               </p>
             </div>
           </div>
@@ -50,7 +50,7 @@ export default function NotFound() {
               <Link
                 href="/"
                 className="inline-block text-center font-poppins font-semibold 
-                          px-8 py-4 bg-violet-600 hover:bg-purple-700 
+                          px-8 py-4 bg-violet-500 hover:bg-purple-700 
                           text-white text-lg rounded-xl
                           transition-all duration-200 transform hover:scale-105
                           w-full"
@@ -64,7 +64,7 @@ export default function NotFound() {
         {/* ===== Bloco da Direita - Imagem (verde) ===== */}
         <div className="relative h-full  md:min-h-[500px] w-full border-8 border-green-500 hidden md:block">
           <Image
-            src="/404-illustration.svg"
+            src="/404-illustration-space.svg"
             alt="Ilustração de erro 404"
             fill
             className="object-cover"
