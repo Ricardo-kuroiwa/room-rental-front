@@ -11,12 +11,6 @@ export default function Header() {
           <span className="text-xl font-bold text-gray-900">Space Rental</span>
         </Link>
 
-        <nav className="hidden md:flex items-center gap-6">
-          <Link href="/listings" className="text-gray-600 hover:text-violet-600 transition-colors">Encontrar Quarto</Link>
-          <Link href="/about" className="text-gray-600 hover:text-violet-600 transition-colors">Sobre Nós</Link>
-          <Link href="/contact" className="text-gray-600 hover:text-violet-600 transition-colors">Contato</Link>
-        </nav>
-
         <div className="flex items-center gap-4">
           <Link href="/login" className="text-gray-600 hover:text-violet-600 transition-colors font-medium">Entrar</Link>
           <Link href="/register" className="bg-violet-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-violet-700 transition-colors">
