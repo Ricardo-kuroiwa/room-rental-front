@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { KeyRound, Loader2 } from "lucide-react";
+import { KeyRound, Loader2 ,Eye, EyeOff } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -44,6 +44,7 @@ interface LoginResponse {
 }
 export function LoginForm() {
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false); 
   const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({

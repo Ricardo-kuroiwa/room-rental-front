@@ -16,6 +16,6 @@ export default function HomePage() {
           <LoginForm />
           
           <Footer />
-        </div>
+    </div>
   )
 }

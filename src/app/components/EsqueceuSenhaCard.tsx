@@ -1,75 +1,107 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { toast } from "sonner";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { useRouter } from "next/navigation";
+
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
+const formSchema = z.object({
+  email: z.string().email({
+    message: "Por favor, insira um endereço de email válido.",
+  }),
+});
+
+interface RecoveryApiResponse {
+  message: string;
+}
 
 export function EsqueceuSenhaCard() {
-     const router = useRouter();
-    const [email, setEmail] = useState("");
-    const [message, setMessage] = useState("");
-    const [isLoading, setIsLoading] = useState(false);
+    const router = useRouter();
 
-    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        setIsLoading(true);
-        
-        setMessage("");
+    const form = useForm<z.infer<typeof formSchema>>({
+        resolver: zodResolver(formSchema),
+        defaultValues: {
+            email: "",
+        },
+    });
 
+    const { isSubmitting } = form.formState;
+
+    async function onSubmit(values: z.infer<typeof formSchema>) {
         try {
-            await fetch(`http://localhost:8080/auth/password/recovery/`, {
+            const response = await fetch(`${apiUrl}/auth/password/recovery`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ email }),
+                body: JSON.stringify({ email: values.email }), 
             });
-            router.push('/');
+            
+            if (!response.ok) {
+                const errorData = await response.json().catch(() => null);
+                throw new Error(errorData?.message || 'Erro ao solicitar redefinição de senha.');
+            }
+
+            const data: RecoveryApiResponse = await response.json();
+            toast.success(data.message || "Instruções de redefinição de senha enviadas para seu email.");
+            
+            router.push('/esqueceu-a-senha/recovery');
+
         } catch (error) {
-            console.error("Erro ao solicitar redefinição de senha:", error);
-            setMessage("Ocorreu um erro ao processar sua solicitação. Tente novamente mais tarde.");
-        } finally {
-            setIsLoading(false);
+            const errorMessage = error instanceof Error ? error.message : "Ocorreu um erro desconhecido.";
+            toast.error(errorMessage);
         }
-    };
+    }
 
     return (
-        <main className="flex-1 flex items-center justify-center py-12 px-4 bg-gray-50">
+        <main className="flex-1 flex items-center justify-center min-h-[470px] py-12 px-4 bg-gray-50">
             <Card className="w-full max-w-md">
                 <CardHeader>
                     <CardTitle className="text-2xl">Esqueceu a senha?</CardTitle>
                     <CardDescription>
-                        Sem problemas! Insira seu email abaixo e enviaremos um token para você redefinir sua senha.
+                        Sem problemas! Insira seu email abaixo e enviaremos um link para você redefinir sua senha.
                     </CardDescription>
                 </CardHeader>
-                <form onSubmit={handleSubmit} className="flex flex-col gap-6">
-                    <CardContent className="space-y-4">
-                        <div className="grid gap-2">
-                            <Label htmlFor="email">Email</Label>
-                            <Input
-                                id="email"
-                                type="email"
-                                placeholder="seuemail@exemplo.com"
-                                required
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
+                <Form {...form}>
+                    <form onSubmit={form.handleSubmit(onSubmit)}>
+                        <CardContent className="space-y-4">
+                            <FormField
+                                control={form.control}
+                                name="email"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Email</FormLabel>
+                                        <FormControl>
+                                            <Input 
+                                                placeholder="seuemail@exemplo.com" 
+                                                {...field} 
+                                                disabled={isSubmitting}
+                                            />
+                                        </FormControl>
+                                        <FormMessage /> 
+                                    </FormItem>
+                                )}
                             />
-                        </div>
-                        {message && <p className="text-sm text-muted-foreground">{message}</p>}
-                    </CardContent>
-                    <CardFooter className="flex flex-col gap-4">
-                        <Button type="submit" className="w-full" disabled={isLoading}>
-                            {isLoading ? "Enviando..." : "Enviar link de redefinição"}
-                        </Button>
-                        <Button variant="link" asChild>
-                           <Link href="/">Voltar para o login</Link>
-                        </Button>
-                    </CardFooter>
-                </form>
+                        </CardContent>
+                        <CardFooter className="flex flex-col gap-4 mt-8">
+                            <Button type="submit" className="w-full" disabled={isSubmitting}>
+                                {isSubmitting ? "Enviando..." : "Enviar link de redefinição"}
+                            </Button>
+                            <Button variant="link" asChild>
+                               <Link href="/">Voltar para o login</Link>
+                            </Button>
+                        </CardFooter>
+                    </form>
+                </Form>
             </Card>
         </main>
     );

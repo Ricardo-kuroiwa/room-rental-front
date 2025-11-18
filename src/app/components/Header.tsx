@@ -9,17 +9,7 @@ export default function Header() {
         <Link href="/" className="flex items-center gap-2">
           <KeyRound className="h-7 w-7 text-violet-600" />
           <span className="text-xl font-bold text-gray-900">Space Rental</span>
-        </Link>
-
-        <div className="flex items-center gap-4">
-          <Link href="/login" className="text-gray-600 hover:text-violet-600 transition-colors font-medium">Entrar</Link>
-          <Link href="/register" className="bg-violet-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-violet-700 transition-colors">
-            Cadastre-se
-          </Link>
-          <button className="md:hidden text-gray-800">
-            <Menu />
-          </button>
-        </div>
+        </Link>        
       </div>
     </header>
   )
