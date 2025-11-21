@@ -1,9 +1,9 @@
 // app/page.tsx
 
-import Header from './components/Header'
-import Footer from './components/Footer'
+import Header from '@/components/geral/Header'
+import Footer from '@/components/geral/Footer'
 import type { Metadata } from 'next'
-import { LoginForm } from './components/LoginForm'
+import { LoginForm } from '@/components/geral/LoginForm'
 export const metadata: Metadata = {
   title: 'Space Rental - Encontre Seu Espaço Perfeito',
   description: 'A página que você está procurando não existe ou foi movida.',

@@ -30,13 +30,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="h-full">
       <head>
         <link rel="icon" href="/key-round.svg" />
         <link rel="apple-touch-icon" href="/key-round.svg" />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${InterFont.variable} ${PoppinsFont.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${InterFont.variable} ${PoppinsFont.variable} h-full antialiased`}
       >
         {children}
         <Toaster richColors position="top-right" />
