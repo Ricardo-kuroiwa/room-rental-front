@@ -18,15 +18,18 @@ import {
   Calendar, 
   Users, 
   User2 ,
-  ShieldCheck
+  ShieldCheck,
+  Tag
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { logoutAction } from "@/app/actions/login";    
-import { obterEmail, obterPermissoes } from "@/utils/jwt";
+import { logoutAction} from "@/app/actions/login";    
+import { getUserAction} from "@/app/actions/usuario-action";    
+import { get } from "http";
 interface SideBarProps {
   permissoes: string[];
   email?: string;
+  nome?: string;
 }
 const menuItems = [
   { title: "Dashboard", href: "/dashboard", icon: Home },
@@ -34,18 +37,19 @@ const menuItems = [
   { title: "Reservas", href: "/dashboard/reservas", icon: Calendar },
   { title: "Usuários", href: "/dashboard/usuarios", icon: Users },
   { title: "Níveis", href: "/dashboard/nivel", icon: ShieldCheck },
+  { title: "Categorias", href: "/dashboard/categoria", icon: Tag },
 ];
 
 
 
-export default function SideBar({permissoes,email}: SideBarProps) {
+export default function SideBar({permissoes,email,nome}: SideBarProps) {
   const pathname = usePathname();
   
   function handleClickLogout() {
     logoutAction();
   }
   const userData = {
-    name: "João Delgado",
+    name:nome|| "Lucas",
     email: email || "",
   };
 

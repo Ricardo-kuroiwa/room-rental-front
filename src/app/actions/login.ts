@@ -3,6 +3,7 @@
 
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
+import { obterEmail } from "@/utils/jwt";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL; 
 
@@ -41,3 +42,6 @@ export async function logoutAction() {
   });
   redirect("/");
 } 
+export async function getEmailAction() {
+  return await obterEmail();
+}

@@ -5,6 +5,7 @@ import { cookies } from 'next/headers'
 interface JwtPayload {
   sub: string;
   permissoes: string[];
+  nome:string;
 }
 
 export async function decodeToken(): Promise<JwtPayload | null> {
@@ -28,6 +29,10 @@ export async function obterPermissoes(): Promise<string[]> {
 export async function obterEmail(): Promise<string> {
   const token = await decodeToken();
   return token?.sub || "";
+}
+export async function obterNome(): Promise<string> {
+  const token = await decodeToken();
+  return token?.nome || "";
 }
 
 export async function verificarPermissao(permissao: string): Promise<boolean> {
